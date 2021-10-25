@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+
+<body>
+    <nav th:replace="layout :: header"></nav>
+    <div class="container" id="main-content">
+        <div class="row">
+            <div class="col-6 no-padding">
+                <form class="form-inline" action="#" th:action="@{/employee/search}" method="get">
+                    <input class="form-control mr-sm-2" type="search" name="term" placeholder="search by name..."/>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i>Search
+                    </button>
+                </form>
+            </div>
+            <div class="col-6 no-padding">
+                <a href="#" th:href="@{/employee/add}" class="btn btn-success float-right">
+                    <i class="fa fa-plus-square"></i>New Employee
+                </a>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <th:block th:if="${#lists.isEmpty(employees)}">
+                <h5>No Employee</h5>
+            </th:block>
+
+            <th:block th:unless="${#lists.isEmpty(employees)}">
+                <div class="table-responsive">
+                    <h5>List of employees</h5>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="employee, iStat : ${employees}">
+                            <th scope="row" th:text="${iStat.count}"></th>
+                            <td th:text="${employee.id}"></td>
+                            <td th:text="${employee.name}"></td>
+                            <td th:text="${employee.email}"></td>
+                            <td th:text="${employee.phone}"></td>
+                            <td>
+                                <a href="#" th:href="@{employee/{id}/edit(id=${employee.id})}" class="mr-sm-2 text-primary">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a href="#" th:href="@{employee/{id}/delete(id=${employee.id})}" class="text-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+        </div>
+    </div>
+
+</body>
+
+</html>
